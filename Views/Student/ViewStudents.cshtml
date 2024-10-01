@@ -1,0 +1,38 @@
+﻿@model CIS174_CoreApp.Models.Student
+
+@{
+    // Access level is taken from the URL route parameter passed to the controller method.
+    var accessLevel = (int)ViewData["AccessLevel"];
+    
+    // Creating list of students from the ViewData by casting to original type.
+    var students = (List<CIS174_CoreApp.Models.Student>)ViewData["Students"];
+}
+
+<h2>Student Access</h2>
+
+<!--If access level provided is less than 2, display insufficient access message.-->
+@if (accessLevel < 2)
+{
+    <p>You do not have a sufficient access level to view this data.</p>
+}
+else if (accessLevel >= 2 && accessLevel < 8)
+{
+    <!--If access level provided is between 2 and 8, display first and last name only.-->
+    <ul>
+        @foreach (var student in students)
+        {
+            <li>@student.FirstName @student.LastName</li>
+        }
+    </ul>
+}
+else if (accessLevel >= 8)
+{
+    <!--If access level provided is 8 or higher, display all student data.-->
+    <p>Hello Admin</p>
+    <ul>
+        @foreach (var student in students)
+        {
+            <li>@student.FirstName @student.LastName - Grade: @student.Grade</li>
+        }
+    </ul>
+}
